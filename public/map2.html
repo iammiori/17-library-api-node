@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>library-map</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<link rel='stylesheet' href='jquery.lightbox-0.5.css'/>
+<script>src='https://code.jquery'</script>
+<!--스타일-->
+  <style>
+    /*페이지 전체 글자크기, 글자폰트*/
+    body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+    body {font-size:16px;}
+
+    .introImg-box {
+      position: relative;
+      float: left;
+      padding: 0;
+      margin: 10px;
+      overflow: hidden;
+    }
+
+    /*소개글이 있는 div*/
+    .introImg-box .caption {
+      position: absolute;
+      top: 200px;
+      width: 300px;
+      height: 200px;
+      padding-top: 20px;
+      background: rgba(0,0,0,0.6);
+      opacity: 0;
+      -moz-transition: all 0.2s ease-in-out;
+      -o-transition: all 0.2s ease-in-out;
+      -webkit-transition: all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      z-index: 10;
+    }
+
+    .introImg-box:hover .caption{
+        opacity: 1;
+        /*아래 부분이 있어야 hover 했을 때 이벤트 발생*/
+        -moz-transform: translateY(-200px);
+        -ms-transform: translateY(-200px);
+        -webkit-transform: translateY(-200px);
+        transform: translateY(-200px);
+    }
+
+    .introImg-box img {
+      width: 100%;
+      height: auto;
+      /* object-fit:contain;
+      float:left;
+      width: 100%;
+      height: auto;
+      margin-top: 10px;
+      opacity: 0.6;
+      z-index: -100; */
+    }
+
+    .introImg-box .caption h1, .introImg-box.caption p{
+      color: #fff;
+      text-align: center;
+    }
+    .button {
+        background-color:rgba(0,0,0,0.6); /* Green */
+        border: none;
+        color: white;
+
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+
+
+        cursor: pointer;
+    }
+a:link, a:visited {
+    background-color: #795548;
+    color: white;
+    padding: 8px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+a:hover, a:active {
+    background-color: brown;
+}
+
+  </style>
+  <!--도시검색 스크립트-->
+
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ca6b4e86f6dc2b41262f4b041ae120cb"></script>
+  <script>
+  /*도서관 관한 정보 저장을 위한 배열*/
+  var title = [];
+  var info = [];
+  var city = [];
+
+   var   address =[];
+  var time=[];
+  var nameb=[];
+  var x=[];
+  var y=[];
+  /*원하는 xml을 불러와 원하는 정보를 배열에 저장*/
+  $(document).ready(function(){
+
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function() {
+
+      if(this.readyState == 4 && this.status == 200) {
+
+        var result = this.responseText;
+/*저장*/
+        $(result).find("row").each(function() {
+
+          var citys = $(this).find("SIGUN_NM").text();
+          var addresss = $(this).find("REFINE_LOTNO_ADDR").text();
+          var times = $(this).find("READROOM_OPEN_TM_INFO").text();
+  var namebb = $(this).find("LIBRRY_NM").text();
+    var xx = $(this).find("REFINE_WGS84_LAT").text();
+      var yy = $(this).find("REFINE_WGS84_LOGT").text();
+          city.push(citys);
+          address.push(addresss);
+          time.push(times);
+          x.push(xx);
+          y.push(yy);
+
+  nameb.push(namebb);
+          });
+
+      }
+
+
+
+      };
+
+/*원하는 xml을 지정*/
+      xmlhttp.open("GET","https://openapi.gg.go.kr/Tbggibllbrm?KEY=e74519148e1e473c9450897652c49eed");
+
+      xmlhttp.send();
+
+  });
+  /*검색 키를 눌렀을경우 실행, 배열안에서 사용자가 원하는
+  정보를 찾은후 원하는 div로 전달 */
+  function myFunction(){
+    var j=1;
+    /*출력된 횟수 카운트를 위한 변수*/
+var u=0;
+  $('#date').empty();
+        var name = document.getElementById('keyword').value;
+        for(var i =0; i<city.length;i++)
+        {
+        if(name==city[i]){
+u++;
+/*위도와 경도를 이용해 다음 맵에 검색한 결과를 보여주는 url*/
+       var u="http://map.daum.net/link/map/"+x[i]+","+y[i];
+
+/*전달*/
+  $('#date').append("<p>"+j+',  '+"<strong>"+"도서관 이름:"+"</strong>"+"&nbsp"+nameb[i]+"&nbsp"+"<a href="+u+" target='_blank'>"+"위치"+"</a>"+"<br />"+
+  "<strong>"+"주소:"+"</strong>"+"&nbsp"+address[i]+"&nbsp"+"<br />"+"<strong>"+
+  "운영 시간:"+"</strong>"+"&nbsp"+time[i]+"&nbsp"+"</p>");
+  j++;
+
+}
+}
+/*검색결과가 없을 경우를 위함*/
+if(u==0)alert("검색결과가 없습니다.");
+  }
+  </script>
+
+</head>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-brown w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>My<br>Bookshelf</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="bookhome.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="MyMemo.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">MyMemo</a>
+    <a href="bestseller.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Best-seller</a>
+    <a href="bookSearch.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Search</a>
+    <a href="map2.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Library map</a>
+    <a href="boardList.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Review</a>
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-brown w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-brown w3-margin-right" onclick="w3_open()">☰</a>
+  <span>Library map</span>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="bookhome">
+    <h1 class="w3-jumbo w3-text-gray"><b>LIbrary Map</b></h1>
+    <h1 class="w3-xlarge w3-text-brown"><b>우리 지역 도서관 찾기</b></h1>
+    <hr style="width:50px;border:5px solid brown" class="w3-round">
+    <div class="introImg-box">
+      <h2 ><strong>도시 검색 </strong>:
+
+      <!--도시 검색 버튼 -->
+   <input type="search" id="keyword"/>
+            <button type="button" class="button" onclick="myFunction()">검색</button>
+
+      </h2>
+
+        </br>
+        <!--이곳에 검색결과를 출력-->
+      <div id="date">
+       <div id="map" style="width:500px;height:400px;"></div>
+
+      </div>
+
+    </div>
+  </div>
+
+<!-- End page content -->
+</div>
+
+<script>
+var a=[];
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+
+
+</script>
+
+</body>
+</html>
