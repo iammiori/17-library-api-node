@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
+html, body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto Condensed', sans-serif;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 50%) no-repeat center center;
+  background-size: auto;
+}
+
+
+/*배경 이미지
+*position 정하기 (중앙정렬)
+*linear-gradient : 그라데이션
+*/
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 1400px;
+  height: 650px;
+  border-radius: 3px;
+  background: linear-gradient(45deg, rgba(69, 104, 220, 0.6) 0%, 	rgba(217, 217, 217,0.6) 100%), url("libraryfirst.jpg") no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 53px 37px -39px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 53px 37px -39px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 53px 37px -39px rgba(0, 0, 0, 0.7);
+}
+
+/*enter 위치
+* transition : 에니메이션 위한 지연 효과
+*/
+
+.wrapper .enter {
+  position: absolute;
+  left: 40%;
+  transition: left .3s;
+}
+
+/*enter 글씨 속성
+*
+*
+*/
+
+.wrapper .enter a {
+  color: #ffffff;
+  font-size: 100px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  transition: letter-spacing .3s;
+}
+
+.wrapper .enter:hover {
+  left: 44.9%;
+  transition: left .3s;
+}
+
+.wrapper .enter:hover a:hover {
+  letter-spacing: 4px;
+  transition: letter-spacing .3s;
+}
+
+.wrapper .active_enter {
+  color: #ffffff;
+  background: #ffffff;
+  height: 10px;
+  left: 0 !important;
+  overflow: hidden;
+  letter-spacing: 10px;
+  transition: left .3s, height .3s ,letter-spacing .3s, background .3s;
+}
+
+.wrapper .active_enter a {
+  color: #ffffff;
+  letter-spacing: 4px;
+  transition: color .3s, letter-spacing .3s;
+}
+
+.wrapper .container_form {
+  position: absolute;
+  right: 0;
+  background: #ffffff;
+  background-size: auto;
+  padding: 25px 0 25px 0;
+  width: 0px;
+  height: 425px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: width .3s, padding .3s;
+}
+.wrapper .container_form .close {
+  position: relative;
+  left: 95px;
+}
+.wrapper .container_form .close a {
+  color: #292929;
+}
+.wrapper .container_form .info {
+  display: flex;
+  padding: 0;
+  list-style-type: none;
+}
+.wrapper .container_form .info li {
+  color: #252525;
+  font-size: 18px;
+  margin-right: 15px;
+  padding-bottom: 10px;
+  transition: border-bottom .1s;
+  border-bottom: 0 solid #4568dc;
+}
+.wrapper .container_form .info li a {
+  color: #252525;
+  text-decoration: none;
+  transition: color .3s;
+}
+.wrapper .container_form .info li a:hover {
+  color: #252525;
+  transition: color .3s;
+}
+.wrapper .container_form .info li:hover {
+  padding-bottom: 10px;
+  border-bottom: 4px solid #4568dc;
+  transition: border-bottom .1s;
+}
+.wrapper .container_form .info li:hover a {
+  color: #4568dc;
+}
+.wrapper .container_form .info .active_link {
+  padding-bottom: 10px;
+  border-bottom: 4px solid #b06ab3;
+}
+.wrapper .container_form .info .active_link a {
+  color: #b06ab3;
+}
+.wrapper .container_form #myForm .inputBox {
+  position: relative;
+  margin: 20px 0 20px 0;
+  display: flex;
+  border: 1px solid #f1f1f1;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+.wrapper .container_form #myForm .inputBox input {
+  color: #252525;
+  padding: 7px 7px 7px 10px;
+  width: 195px;
+  font-size: 14px;
+  border-radius: 2px;
+  border: 0;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0);
+}
+.wrapper .container_form #myForm .inputBox input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: silver !important;
+  font-size: 12px;
+}
+.wrapper .container_form #myForm .inputBox input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: silver !important;
+  font-size: 12px;
+}
+.wrapper .container_form #myForm .inputBox input:-ms-input-placeholder {
+  /* IE 10+ */
+  color: silver !important;
+  font-size: 12px;
+}
+.wrapper .container_form #myForm .inputBox input:-moz-placeholder {
+  /* Firefox 18- */
+  color: silver !important;
+  font-size: 12px;
+}
+.wrapper .container_form #myForm .inputBox input[type="submit"] {
+  color: #ffffff;
+  letter-spacing: 2px;
+  padding-top: 8px;
+  font-size: 12px !important;
+  text-transform: uppercase;
+}
+.wrapper .container_form #myForm .inputBox .sendBut {
+  height: 30px !important;
+  background: linear-gradient(15deg, #4568dc, #b06ab3);
+  width: 255px;
+  transition: background .3s;
+}
+.wrapper .container_form #myForm .inputBox .sendBut:hover {
+  background: linear-gradient(115deg, #4568dc, #b06ab3);
+  transition: background .3s;
+}
+.wrapper .container_form #myForm .inputBox i {
+  position: relative;
+  width: 30px;
+  top: 7px;
+  left: 16px;
+}
+.wrapper .container_form #myForm .inputBox i.fa-check {
+  color: #4568dc;
+}
+.wrapper .container_form #myForm .inputBox i.fa-exclamation {
+  color: #b06ab3;
+  left: 20px;
+}
+.wrapper .container_form #myForm .passBox {
+  margin: 0 !important;
+}
+
+.wrapper .container_form #myForm .emailBox {
+  height: 0;
+  margin: 0;
+  border: 0px solid #f1f1f1;
+  transition: height .3s, border .3s, margin .3s;
+}
+.wrapper .container_form #myForm .active_emailBox {
+  height: 30px;
+  border: 1px solid #f1f1f1;
+  margin: 20px 0 20px 0;
+  transition: height .3s, margin .3s;
+}
+
+.wrapper .active_container {
+  width: 50%;
+  padding: 25px;
+  transition: width .3s, padding .3s;
+}
