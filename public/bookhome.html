@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bestseller</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  <style>
+    /*페이지 전체 글자크기, 글자폰트*/
+    body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+    body {font-size:16px;}
+
+    .introImg-box {
+      height: 500px;
+      width: 95%;
+      position: relative;
+      float: left;
+      padding: 0;
+      margin: 30px;
+      overflow: hidden;
+    }
+
+    /*hover하면 나오는 div*/
+    .introImg-box .caption {
+      position: absolute;
+      top: 500px;
+      height: 500px;
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      opacity: 0;
+      -moz-transition: all 0.2s ease-in-out;
+      -o-transition: all 0.2s ease-in-out;
+      -webkit-transition: all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      z-index: 10;
+    }
+
+    .introImg-box:hover .caption{
+        opacity: 1;
+        /*아래 부분이 있어야 hover 했을 때 이벤트 발생
+        올라오는 부분임
+        */
+        -moz-transform: translateY(-500px);
+        -ms-transform: translateY(-500px);
+        -webkit-transform: translateY(-500px);
+        transform: translateY(-500px);
+    }
+
+    .introImg-box img {
+      width: 100%;
+      height: 500px;
+      object-fit: ontain;
+      float:center;
+      opacity: 0.6;
+      z-index: -100;
+    }
+
+    /*오버안에 있는 글자 */
+    /* .introImg-box .caption h1 {
+      margin : 180px;
+      color: #fff;
+      text-align: center;
+      font-size : 70px;
+    } */
+    /* .introImg-box .caption h1, .introImg-box .caption h3{
+      color: #fff;
+      text-align: center;
+    } */
+    #text {
+      position: relative;
+      color: #fff;
+      text-align: center;
+      font-size : 70px;
+      top: 30%;
+      left: 50%
+       transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+    }
+
+    .intro-list {
+      list-style:none;
+      margin:0;
+      margin-top : 20px;
+      padding:0;
+     }
+     h1.tt{
+       font-family: 'Lobster', cursive;
+     }
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <script>
+
+  </script>
+
+</head>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-brown w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>My<br>Bookshelf</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="bookhome.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="MyMemo.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">My Memo</a>
+    <a href="bestseller.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Best-seller</a>
+    <a href="bookSearch.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Search</a>
+    <a href="map2.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Library map</a>
+    <a href="boardList.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Review</a>
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-brown w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-brown w3-margin-right" onclick="w3_open()">☰</a>
+  <span>My Bookshelf</span>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="bookhome">
+    <h1 class="w3-jumbo w3-text-gray"><b>My Bookshelf</b></h1>
+    <h1 class="w3-xlarge w3-text-brown"><b>Introduction</b></h1>
+  <hr style="width:50px;border:5px solid brown" class="w3-round">
+  </div>
+
+  <div class="w3-container">
+    <div class="introImg-box">
+      <img src="bookimg.jpg" >
+      <div class="caption">
+        <h1 id="text" >Welcome to <br />'My Bookshelf'</h1>
+      </div>
+    </div>
+
+  <div class="w3-container" style="margin-top:10px">
+      <h1 class="w3-text-brown"><b>What is the purpose ?</b></h1>
+    <section id="purpose">
+      <ul class="w3-text">
+        <h1 class="tt">
+          For Your Reading Life,
+           We Provide Convenience.
+
+        </h1>
+        <br>
+      <br>
+            <br>
+
+      </ul>
+    </section>
+</div>
+<!-- End page content -->
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script>
+
+</body>
+</html>
