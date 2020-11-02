@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>bookSearch</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--스타일-->
+  <style>
+    /*페이지 전체 글자크기, 글자폰트*/
+    body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+    body {font-size:16px;}
+
+    /* width는 태그에 바로
+    input 75%, select 10% button 10%*/
+    input, select {
+      float: left;
+      padding: 10px;
+      box-sizing: border-box;      /*??*/
+      border: 2px solid #ccc;
+      background-color: white;
+    }
+
+    /*검색버튼*/
+    #input-form button{
+      float: left;
+      padding: 10px;
+      background: #ddd;
+      color: white;
+      font-size: 17px;
+      border: 2px solid #ccc;
+      border-left: none;
+      cursor: pointer;
+    }
+
+    #input-form button:hover {
+      background: #ccc;
+    }
+
+    /*검색결과 나오는 테이블*/
+    table {
+      font-family: "Poppins", arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th{
+        border: 1px solid #dddddd;
+        /*text-align: left;*/
+        padding: 8px;
+    }
+
+    th {
+      /*text-align: center;*/
+      background-color: #e1d7d0;
+    }
+
+  </style>
+
+  <!--도서 검색 스크립트-->
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <script>
+  //옵션 선택값 저장
+  var select_value;
+  function myFunction_select() {
+    select_value = document.getElementById('option').value;
+  }
+
+  function myFunction_search() {
+    var u=0;        //한번도 출력이 안된 경우
+
+    //옵션에서 고르지않고 전체로 둔 경우
+    if(typeof select_value === "undefined")
+      select_value = "title";
+
+    var key = document.getElementById('keyword').value;
+    //공백, 특수문자 는 예외처리, 입력시 다시 입력 알림
+    var spStr = /[`~!@#$%^&*|\\\'\";:\/?]/gi;     //특수문자
+    if(key.length == 0 || spStr.test(key) == true) {
+      alert("검색어를 입력하세요.");
+      return ;
+    }
+
+    $("td").empty();      //다시 검색했을때 새롭게 이전기록은 지워지고 새로운 기록이 나오도록 한다.
+
+    //xml 한 페이지에 50개 정보. 약 5000개를 전부 보기 위해
+      for( var i=1;i<1000;i++) {
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+              var result = this.responseText;
+                $(result).find("RECORD").each(function() {
+                    var title = $(this).find("TITLE").text();
+                    var author = $(this).find("AUTHOR").text();
+                    var publer = $(this).find("PUBLISHER").text();
+                    var publer_Year = $(this).find("PUBYEAR").text();
+
+          //문자열 안에 있는 다른 문자열 검색
+          //title.indexOf(key);    -> title안에 key와 같은 문자가 있는 처음위치반환
+          //return = -1이면 존재안함.
+          //테이블 형태로 나오도록 <tr>,<td>사용
+          switch (select_value) {
+            case 'total' :      //전체
+              if(title.indexOf(key) != -1 || author.indexOf(key) != -1 || publer.indexOf(key) != -1)
+                  $('#table_output').append("<tr>" + "<td>"+title + "</td>"+ "<td>"+author + "</td>" + "<td>"+ publer + "</td>" + "<td>"+publer_Year + "</td>" + "</tr>");
+                  u++;
+              break;
+            case 'title' :      //제목
+              if(title.indexOf(key) != -1)
+                  $('#table_output').append("<tr>" + "<td>"+title + "</td>"+ "<td>"+author + "</td>" + "<td>"+ publer + "</td>" + "<td>"+publer_Year + "</td>" + "</tr>");
+                    u++;
+              break;
+            case 'author' :     //작가
+              if(author.indexOf(key) != -1)
+                  $('#table_output').append("<tr>" + "<td>"+title + "</td>"+ "<td>"+author + "</td>" + "<td>"+ publer + "</td>" + "<td>"+publer_Year + "</td>" + "</tr>");
+                    u++;
+              break;
+            case 'publer' :     //출판사
+              if(publer.indexOf(key) != -1)
+                  $('#table_output').append("<tr>" + "<td>"+title + "</td>"+ "<td>"+author + "</td>" + "<td>"+ publer + "</td>" + "<td>"+publer_Year + "</td>" + "</tr>");
+                    u++;
+              break;
+          }
+           if(u==0&&i==999)alert("검색하신 것을 서버에서 찾을 수 없습니다.");
+        });
+      }
+    };
+    //국립중앙도서관 api, 약 5000개
+    var url="http://nl.go.kr/kolisnet/openApi/open.php?search_field1=total&value1=key&search_fiel21=total&value2=key&page="+i+"&per_page=50";
+    xmlhttp.open("GET", url ,true);
+    //xmlhttp.open("GET","http://www.yes24.com/_par_/Rss/KNU001001014.xml",true);
+    xmlhttp.send();
+  }
+}
+
+  // 작은 화면에서 사이드 바 open, close
+  function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+  }
+
+  function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+  }
+
+  </script>
+</head>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-brown w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>My<br>Bookshelf</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="bookhome.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="MyMemo.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">My Memo</a>
+    <a href="bestseller.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Best-seller</a>
+    <a href="bookSearch.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Search</a>
+    <a href="map2.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Library map</a>
+    <a href="boardList.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Review</a>
+  </div>
+</nav>
+
+<!-- 작은 화면에서 메뉴 아이콘 & 제목-->
+<header class="w3-container w3-top w3-hide-large w3-brown w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-brown w3-margin-right" onclick="w3_open()">☰</a>
+  <span>My Bookshelf</span>
+</header>
+
+<!-- 작은 화면에서 사이드 바 열었을 때 오버레이효과-->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- 도서 검색 -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px">
+    <h1 class="w3-xxxlarge w3-text-brown"><b>Book Search</b></h1>
+    <hr style="width:50px;border:5px solid brown" class="w3-round">
+  </div>
+
+  <!-- CONTENTS -->
+  <div class="w3-container" style="margin-top:20px">
+      <div id="input-form">
+        <!--선택 옵셕-->
+        <select id="option" onchange="myFunction_select()" style="width : 15%">
+          <option value="total">전체</option>
+          <option value="title">제목</option>
+          <option value="author">작가</option>
+          <option value="publer">출판사</option>
+        </select>
+          <input type="text" id="keyword" placeholder="Search.."/ style="width : 75%">
+          <button id="bookSearch_button" type="button" onclick="myFunction_search()" style="width : 10%"><i class="fa fa-search"></i></button>      <!--fa fa-search : 돋보기 아이콘 -->
+      </div>
+      <div id="Search_output" style="margin-top: 100px">
+        <table id="table_output">
+          <tr>
+            <!--테이블 헤드부분 너비고정-->
+            <th style="width:40%"> 제목 </th>
+            <th style="width:20%"> 작가 </th>
+            <th style="width:10%"> 출판사 </th>
+            <th style="width:10%"> 출판년도 </th>
+          </tr>
+
+        <!-- 도서관 api 가져오기 -->
+      </div>
+    </div>
+  </div>
+<!-- End page content -->
+</div>
+</body>
+</html>
