@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>회원가입</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+	</head>
+<body>
+	<div class="wrapper">
+
+  <div class="enter animated fadeInDown">
+		<h1>회원가입</h1>
+		<br>
+		<form method="post" action="/process/adduser">
+			<table>
+				<tr>
+					<td><label>아이디</label></td>
+					<td><input type="text" name="id" /></td>
+				</tr>
+				<tr>
+					<td><label>비밀번호</label></td>
+					<td><input type="password" name="password" /></td>
+				</tr>
+				<tr>
+					<td><label>사용자명</label></td>
+					<td><input type="text" name="name" /></td>
+				</tr>
+			</table>
+			<input type="submit" style="color:white;background-color:rgba(176, 106, 179,.9);" value="가입" name="" />
+		</div>
+		</form>
+</div>
+
+</body>
+</html>
