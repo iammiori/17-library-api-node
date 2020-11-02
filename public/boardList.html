@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>boardList</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    /*페이지 전체 글자크기, 글자폰트*/
+    body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+    body {font-size:16px;}
+
+    input[type=text], select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+    }
+
+    input[type=submit] {
+        background-color: #795548;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+
+    input[type=submit]:hover {
+        background-color: #795548;
+    }
+/*게시저장글 전체배경*/
+    .container1{
+        border-radius: 5px;
+        background-color: #e1d7d0;
+        padding: 20px;
+    }
+/*글씨부분*/
+    .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 6px;
+        margin-left: 6px;
+    }
+/*입력부분*/
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .button {
+    background-color: #795548;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+        .col-25, .col-75, input[type=submit] {
+            width: 100%;
+            margin-top: 0;
+        }
+    }
+
+    table {
+      font-family: "Poppins", arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th{
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+    /*글 제목은 왼쪾으로*/
+    td:nth-child(2) {
+      text-align: left;
+    }
+    th {
+      /*text-align: center;*/
+      background-color: #e1d7d0;
+    }
+  </style>
+  
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <script>
+    function lookreview() {
+        $.ajax({
+          url: 'http://localhost:3000/process/lookreview',
+          dataType: 'json',
+          type: 'POST',
+          //data: {'subject':$('#subject').val()},
+          success : function(result) {
+            $.each(result, function(i, d) {
+              $("#hi").append("<td>"+d["title"]+"</td>");
+              $("#hi").append("<td>"+d["review"]+"</td>");
+              $("#hi").append("<td> "+d["id"]+"</td>");
+              $("#hi").append("<tr></tr>");
+            });
+            }
+          });
+    }
+    </script>
+</head>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-brown w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>My<br>Bookshelf</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="bookhome.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="MyMemo.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">MyMemo</a>
+    <a href="bestseller.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Best-seller</a>
+    <a href="bookSearch.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Search</a>
+    <a href="map2.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Library map</a>
+    <a href="boardList.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Review</a>
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-brown w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-brown w3-margin-right" onclick="w3_open()">☰</a>
+  <span>My Bookshelf</span>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="bookhome">
+    <h1 class="w3-xxxlarge w3-text-brown" ><b>Book Review</b></h1>
+    <h1 class="looktitle"></h1>
+        <input type="button" value="게시판 조회" onclick=' lookreview()'>
+    <hr style="width:50px;border:5px solid brown" class="w3-round">
+  </div>
+  <!--목록-->
+  <!--서버한테서 값 받아야 한다.-->
+  <div class="w3-container">
+    <div class="introImg-box">
+      <hr>
+      <table id="boardTable">
+        <thead>
+          <tr>
+            <th style="width:45%"> 제목 </th>
+            <th style="width:20%"> 내용 </th>
+            <th style="width:20%">  작성자</th>
+          </tr>
+        </thead>
+
+        <tbody  id="hi" >
+        </tbody>
+      </table>
+      <hr>
+
+    <!--게시판 작성틀-->
+    <div class="container1">
+      <form method="post" action="/process/review"  id="myForm1">
+        <div class="row">
+          <div class="col-25">
+            <label form="fname">책 제목</label>
+          </div>
+          <div class="col-75">
+            <input type="text" id="fname1" name="title" placeholder="책 이름을 적어주세요...">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label for="subject">책 내용</label>
+          </div>
+          <div class="col-75">
+            <textarea id="subject" name="subject" placeholder="적고 싶은거 적어주세요" style="height:200px"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <input type="submit"  value="저장" name = "booksave">
+        </div>
+        <br />
+        <div class="row">
+          <input type="button" onclick="javascript:history.back()" value="취소" class="button" name="bookupdate">
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
