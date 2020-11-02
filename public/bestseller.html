@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bestseller</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.bsimg {
+  float:left;
+  width: 30%;
+  padding-right: 60px;
+}
+.bsimg img{ width: 160px; height: 220px;margin-bottom:-6px;margin-top:30px;cursor:pointer}
+.bsimg img:hover{opacity:0.5; transition: 0.3s}
+</style>
+<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script>
+var title = [];
+var info = [];
+
+  $(document).ready(function(){
+    var cnt=0; //책 이미지가 아닌 이미지가 나타나는것을 방지하기 위해
+    var num=0;//책 제목 인덱스
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status ==200){
+          var result = this.responseText;
+          $(result).find("h2").each(function(){
+          var name=$(this).find("a").text();
+          title.push(name);
+          });
+          $(result).find("tbody").each(function(){
+          if(cnt%4==0){
+          var name=$(this).find("img").attr('src');
+          var result="<img src='"+name+"' style='width:100%' onclick='onClick(this)' alt='"+title[num]+" '/>"
+          num++;
+          if(cnt<20)
+            $(" #bsimg1").append(result);
+         else if(cnt<40)
+           $(" #bsimg2").append(result);
+          else if(cnt<60)
+            $(" #bsimg3").append(result);
+        }
+        cnt++;
+
+        });
+        }
+      };
+    xmlhttp.open("GET", "http://www.aladin.co.kr/rss/bestseller/book", true);
+    xmlhttp.send();
+  });
+</script>
+
+</head>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-brown w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>My<br>Bookshelf</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="bookhome.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+    <a href="MyMemo.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">MyMemo</a>
+    <a href="bestseller.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Best-seller</a>
+    <a href="bookSearch.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Search</a>
+    <a href="map2.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Library map</a>
+    <a href="boardList.html" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Book Review</a>
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-brown w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-brown w3-margin-right" onclick="w3_open()">☰</a>
+  <span>My Bookshelf</span>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- 베스트셀러 -->
+  <div class="w3-container" id="bestseller" style="margin-top:75px;">
+    <h1 class="w3-xxxlarge w3-text-brown"><b>Best-seller</b></h1>
+    <hr style="width:50px;border:6px solid brown" class="w3-round">
+    <!-- Photo grid (modal) -->
+  <h1 class="w3-text-brown"><b>주간 베스트셀러 1~15위 </b></h1>
+    <div class="w3-row-padding">
+      <h3 id="bsinfo"></h3>
+      <div class="bsimg" id="bsimg1">
+      </div>
+      <div class="bsimg" id="bsimg2">
+      </div>
+      <div class="bsimg" id="bsimg3">
+      </div>
+    </div>
+
+    <!-- Modal for full size images on click-->
+    <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+      <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
+      <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+        <img id="img01" class="w3-image">
+        <p id="caption"></p>
+      </div>
+    </div>
+
+
+  </div>
+
+<!-- End page content -->
+</div>
+
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script>
+
+</body>
+</html>
